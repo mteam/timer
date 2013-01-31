@@ -1,6 +1,6 @@
 function Timer() {
   this.last = null;
-  this.pause = true;
+  this.paused = true;
   this.timeout = null;
 
   this.step = this.step.bind(this);
