@@ -1,0 +1,8 @@
+{
+  "name": "timer",
+  "repo": "mteam/timer",
+  "version": "0.1.0",
+  "scripts": [
+    "index.js"
+  ]
+}
