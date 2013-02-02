@@ -23,7 +23,7 @@ Timer.prototype.start = function() {
 
 Timer.prototype.step = function() {
   var now = Date.now(),
-      dt = now - this.last;
+      dt = (now - this.last) / 1000;
 
   this.last = now;
 
