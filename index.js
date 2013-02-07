@@ -1,9 +1,11 @@
+var bind = require('bind');
+
 function Timer() {
   this.last = null;
   this.paused = true;
   this.timeout = null;
 
-  this.step = this.step.bind(this);
+  this.step = bind(this, this.step);
 }
 
 Timer.prototype.schedule = function() {
