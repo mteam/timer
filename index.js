@@ -1,9 +1,10 @@
 var bind = require('bind');
 
-function Timer() {
+function Timer(onTick) {
   this.last = null;
   this.paused = true;
   this.timeout = null;
+  this.onTick = onTick;
 
   this.step = bind(this, this.step);
 }
@@ -37,7 +38,5 @@ Timer.prototype.pause = function() {
   this.paused = true;
   this.unschedule();
 };
-
-Timer.prototype.onTick = function() {};
 
 module.exports = Timer;
