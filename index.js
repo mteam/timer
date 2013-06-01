@@ -1,42 +1,42 @@
 var bind = require('bind');
 
-function Timer(onTick) {
+function Timer(onTick, interval) {
+  this.onTick = onTick;
+  this.interval = interval || 1000 / 60;
+
   this.last = null;
   this.paused = true;
-  this.timeout = null;
-  this.onTick = onTick;
 
-  this.step = bind(this, this.step);
+  this.tick = bind(this, this.tick);
 }
 
-Timer.prototype.schedule = function() {
-  if (this.paused) return;
-  this.timeout = setTimeout(this.step, 1000 / 60);
-};
+Timer.prototype = {
 
-Timer.prototype.unschedule = function() {
-  clearTimeout(this.timeout);
-};
+  schedule: function() {
+    setTimeout(this.tick, this.interval);
+  },
 
-Timer.prototype.start = function() {
-  this.last = Date.now();
-  this.paused = false;
-  this.schedule();
-};
+  start: function() {
+    this.last = Date.now();
+    this.paused = false;
+    this.schedule();
+  },
 
-Timer.prototype.step = function() {
-  var now = Date.now(),
-      dt = (now - this.last) / 1000;
+  pause: function() {
+    this.paused = true;
+  },
 
-  this.last = now;
+  tick: function() {
+    if (this.paused) return;
+    
+    var now = Date.now();
+    var dt = (now - this.last) / 1000;
+    this.last = now;
 
-  this.onTick(dt);
-  this.schedule();
-};
+    this.onTick(dt);
+    this.schedule();
+  }
 
-Timer.prototype.pause = function() {
-  this.paused = true;
-  this.unschedule();
 };
 
 module.exports = Timer;
