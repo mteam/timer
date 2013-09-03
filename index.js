@@ -12,6 +12,8 @@ function Timer(onTick, interval) {
 
 Timer.prototype = {
 
+  maxDelta: 0.04,
+
   schedule: function() {
     setTimeout(this.tick, this.interval);
   },
@@ -32,6 +34,10 @@ Timer.prototype = {
     var now = Date.now();
     var dt = (now - this.last) / 1000;
     this.last = now;
+
+    if (dt > this.maxDelta) {
+      dt = this.maxDelta;
+    }
 
     this.onTick(dt);
     this.schedule();
